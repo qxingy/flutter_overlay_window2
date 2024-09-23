@@ -94,7 +94,7 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.4"
-  flutter_overlay_window:
+  flutter_overlay_window2:
     dependency: "direct main"
     description:
       path: ".."

@@ -24,7 +24,7 @@ dependencies:
   simple_animations: ^4.0.2
   supercharged: ^2.1.1
   flutter_accessibility_service: ^0.2.2
-  flutter_overlay_window:
+  flutter_overlay_window2:
     path: ../
 
   # The following adds the Cupertino Icons font to your application.

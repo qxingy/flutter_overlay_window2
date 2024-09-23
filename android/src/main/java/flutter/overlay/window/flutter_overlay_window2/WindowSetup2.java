@@ -1,4 +1,4 @@
-package flutter.overlay.window.flutter_overlay_window;
+package flutter.overlay.window.flutter_overlay_window2;
 
 
 import android.view.Gravity;
@@ -8,7 +8,7 @@ import androidx.core.app.NotificationCompat;
 
 import io.flutter.plugin.common.BasicMessageChannel;
 
-public abstract class WindowSetup {
+public abstract class WindowSetup2 {
 
     static int height = WindowManager.LayoutParams.MATCH_PARENT;
     static int width = WindowManager.LayoutParams.MATCH_PARENT;

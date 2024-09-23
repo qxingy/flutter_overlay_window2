@@ -1,15 +1,11 @@
-package flutter.overlay.window.flutter_overlay_window;
+package flutter.overlay.window.flutter_overlay_window2;
 
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.service.notification.StatusBarNotification;
-import android.util.Log;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +30,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry;
 
-public class FlutterOverlayWindowPlugin implements
+public class FlutterOverlayWindowPlugin2 implements
         FlutterPlugin, ActivityAware, BasicMessageChannel.MessageHandler, MethodCallHandler,
         PluginRegistry.ActivityResultListener {
 
@@ -48,15 +44,15 @@ public class FlutterOverlayWindowPlugin implements
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
         this.context = flutterPluginBinding.getApplicationContext();
-        channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), OverlayConstants.CHANNEL_TAG);
+        channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), OverlayConstants2.CHANNEL_TAG);
         channel.setMethodCallHandler(this);
 
-        messenger = new BasicMessageChannel(flutterPluginBinding.getBinaryMessenger(), OverlayConstants.MESSENGER_TAG,
+        messenger = new BasicMessageChannel(flutterPluginBinding.getBinaryMessenger(), OverlayConstants2.MESSENGER_TAG,
                 JSONMessageCodec.INSTANCE);
         messenger.setMessageHandler(this);
 
-        WindowSetup.messenger = messenger;
-        WindowSetup.messenger.setMessageHandler(this);
+        WindowSetup2.messenger = messenger;
+        WindowSetup2.messenger.setMessageHandler(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -88,21 +84,21 @@ public class FlutterOverlayWindowPlugin implements
             boolean enableDrag = call.argument("enableDrag");
             String positionGravity = call.argument("positionGravity");
             Map<String, Integer> startPosition = call.argument("startPosition");
-            int startX = startPosition != null ? startPosition.getOrDefault("x", OverlayConstants.DEFAULT_XY) : OverlayConstants.DEFAULT_XY;
-            int startY = startPosition != null ? startPosition.getOrDefault("y", OverlayConstants.DEFAULT_XY) : OverlayConstants.DEFAULT_XY;
+            int startX = startPosition != null ? startPosition.getOrDefault("x", OverlayConstants2.DEFAULT_XY) : OverlayConstants2.DEFAULT_XY;
+            int startY = startPosition != null ? startPosition.getOrDefault("y", OverlayConstants2.DEFAULT_XY) : OverlayConstants2.DEFAULT_XY;
 
 
-            WindowSetup.width = width != null ? width : -1;
-            WindowSetup.height = height != null ? height : -1;
-            WindowSetup.enableDrag = enableDrag;
-            WindowSetup.setGravityFromAlignment(alignment != null ? alignment : "center");
-            WindowSetup.setFlag(flag != null ? flag : "flagNotFocusable");
-            WindowSetup.overlayTitle = overlayTitle;
-            WindowSetup.overlayContent = overlayContent == null ? "" : overlayContent;
-            WindowSetup.positionGravity = positionGravity;
-            WindowSetup.setNotificationVisibility(notificationVisibility);
+            WindowSetup2.width = width != null ? width : -1;
+            WindowSetup2.height = height != null ? height : -1;
+            WindowSetup2.enableDrag = enableDrag;
+            WindowSetup2.setGravityFromAlignment(alignment != null ? alignment : "center");
+            WindowSetup2.setFlag(flag != null ? flag : "flagNotFocusable");
+            WindowSetup2.overlayTitle = overlayTitle;
+            WindowSetup2.overlayContent = overlayContent == null ? "" : overlayContent;
+            WindowSetup2.positionGravity = positionGravity;
+            WindowSetup2.setNotificationVisibility(notificationVisibility);
 
-            final Intent intent = new Intent(context, OverlayService.class);
+            final Intent intent = new Intent(context, OverlayService2.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra("startX", startX);
@@ -110,20 +106,20 @@ public class FlutterOverlayWindowPlugin implements
             context.startService(intent);
             result.success(null);
         } else if (call.method.equals("isOverlayActive")) {
-            result.success(OverlayService.isRunning);
+            result.success(OverlayService2.isRunning);
             return;
         } else if (call.method.equals("isOverlayActive")) {
-            result.success(OverlayService.isRunning);
+            result.success(OverlayService2.isRunning);
             return;
         } else if (call.method.equals("moveOverlay")) {
             int x = call.argument("x");
             int y = call.argument("y");
-            result.success(OverlayService.moveOverlay(x, y));
+            result.success(OverlayService2.moveOverlay(x, y));
         } else if (call.method.equals("getOverlayPosition")) {
-            result.success(OverlayService.getCurrentPosition());
+            result.success(OverlayService2.getCurrentPosition());
         } else if (call.method.equals("closeOverlay")) {
-            if (OverlayService.isRunning) {
-                final Intent i = new Intent(context, OverlayService.class);
+            if (OverlayService2.isRunning) {
+                final Intent i = new Intent(context, OverlayService2.class);
                 context.stopService(i);
                 result.success(true);
             }
@@ -137,19 +133,19 @@ public class FlutterOverlayWindowPlugin implements
     @Override
     public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
         channel.setMethodCallHandler(null);
-        WindowSetup.messenger.setMessageHandler(null);
+        WindowSetup2.messenger.setMessageHandler(null);
     }
 
     @Override
     public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
         mActivity = binding.getActivity();
-        if (FlutterEngineCache.getInstance().get(OverlayConstants.CACHED_TAG) == null) {
+        if (FlutterEngineCache.getInstance().get(OverlayConstants2.CACHED_TAG) == null) {
             FlutterEngineGroup enn = new FlutterEngineGroup(context);
             DartExecutor.DartEntrypoint dEntry = new DartExecutor.DartEntrypoint(
                     FlutterInjector.instance().flutterLoader().findAppBundlePath(),
-                    "overlayMain");
+                    "overlayMain2");
             FlutterEngine engine = enn.createAndRunEngine(context, dEntry);
-            FlutterEngineCache.getInstance().put(OverlayConstants.CACHED_TAG, engine);
+            FlutterEngineCache.getInstance().put(OverlayConstants2.CACHED_TAG, engine);
         }
     }
 
@@ -169,9 +165,9 @@ public class FlutterOverlayWindowPlugin implements
     @Override
     public void onMessage(@Nullable Object message, @NonNull BasicMessageChannel.Reply reply) {
         BasicMessageChannel overlayMessageChannel = new BasicMessageChannel(
-                FlutterEngineCache.getInstance().get(OverlayConstants.CACHED_TAG)
+                FlutterEngineCache.getInstance().get(OverlayConstants2.CACHED_TAG)
                         .getDartExecutor(),
-                OverlayConstants.MESSENGER_TAG, JSONMessageCodec.INSTANCE);
+                OverlayConstants2.MESSENGER_TAG, JSONMessageCodec.INSTANCE);
         overlayMessageChannel.send(message, reply);
     }
 

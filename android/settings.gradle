@@ -1,1 +1,3 @@
+package android
+
 rootProject.name = 'flutter_overlay_window2'

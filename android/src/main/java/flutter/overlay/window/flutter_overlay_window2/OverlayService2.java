@@ -40,6 +40,7 @@ import io.flutter.embedding.engine.FlutterEngineCache;
 import io.flutter.plugin.common.BasicMessageChannel;
 import io.flutter.plugin.common.JSONMessageCodec;
 import io.flutter.plugin.common.MethodChannel;
+import io.flutter.embedding.engine.FlutterEngineCache;
 
 public class OverlayService2 extends Service implements View.OnTouchListener {
     private final int DEFAULT_NAV_BAR_HEIGHT_DP = 48;
@@ -56,7 +57,6 @@ public class OverlayService2 extends Service implements View.OnTouchListener {
     private WindowManager windowManager = null;
     private FlutterView flutterView;
     private MethodChannel flutterChannel = new MethodChannel(FlutterEngineCache.getInstance().get(OverlayConstants2.CACHED_TAG).getDartExecutor(), OverlayConstants2.OVERLAY_TAG);
-    private BasicMessageChannel<Object> overlayMessageChannel = new BasicMessageChannel(FlutterEngineCache.getInstance().get(OverlayConstants2.CACHED_TAG).getDartExecutor(), OverlayConstants2.MESSENGER_TAG, JSONMessageCodec.INSTANCE);
     private int clickableFlag = WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
 
@@ -89,6 +89,11 @@ public class OverlayService2 extends Service implements View.OnTouchListener {
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(OverlayConstants2.NOTIFICATION_ID);
         instance = null;
+
+        if (CachedMessageChannels.overlayMessageChannel != null) {
+            CachedMessageChannels.overlayMessageChannel.setMessageHandler(null);
+            CachedMessageChannels.overlayMessageChannel = null;
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -139,9 +144,17 @@ public class OverlayService2 extends Service implements View.OnTouchListener {
                 resizeOverlay(width, height, enableDrag, result);
             }
         });
+        BasicMessageChannel<Object> overlayMessageChannel = new BasicMessageChannel<>(FlutterEngineCache.getInstance().get(OverlayConstants2.CACHED_TAG).getDartExecutor().getBinaryMessenger(), OverlayConstants2.MESSENGER_TAG, JSONMessageCodec.INSTANCE);
         overlayMessageChannel.setMessageHandler((message, reply) -> {
-            WindowSetup2.messenger.send(message);
+            if (CachedMessageChannels.mainAppMessageChannel == null) {
+                reply.reply(false);
+                return;
+            }
+            CachedMessageChannels.mainAppMessageChannel.send(message);
+            reply.reply(true);
         });
+        CachedMessageChannels.overlayMessageChannel = overlayMessageChannel;
+
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {

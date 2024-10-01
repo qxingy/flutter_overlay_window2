@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_overlay_window2/src/models/overlay_position.dart';
 import 'package:flutter_overlay_window2/src/overlay_config.dart';
 
-class FlutterOverlayWindow {
-  FlutterOverlayWindow._();
+class FlutterOverlayWindow2 {
+  FlutterOverlayWindow2._();
 
   static final StreamController _controller = StreamController();
   static const MethodChannel _channel =
@@ -20,15 +20,15 @@ class FlutterOverlayWindow {
   ///
   /// - Optional arguments:
   ///
-  /// `height` the overlay height and default is [WindowSize.fullCover]
+  /// `height` the overlay height and default is [WindowSize2.fullCover]
   ///
-  /// `width` the overlay width and default is [WindowSize.matchParent]
+  /// `width` the overlay width and default is [WindowSize2.matchParent]
   ///
-  /// `alignment` the alignment postion on screen and default is [OverlayAlignment.center]
+  /// `alignment` the alignment postion on screen and default is [OverlayAlignment2.center]
   ///
-  /// `visibilitySecret` the detail displayed in notifications on the lock screen and default is [NotificationVisibility.visibilitySecret]
+  /// `visibilitySecret` the detail displayed in notifications on the lock screen and default is [NotificationVisibility2.visibilitySecret]
   ///
-  /// `OverlayFlag` the overlay flag and default is [OverlayFlag.defaultFlag]
+  /// `OverlayFlag` the overlay flag and default is [OverlayFlag2.defaultFlag]
   ///
   /// `overlayTitle` the notification message and default is "overlay activated"
   ///
@@ -36,20 +36,20 @@ class FlutterOverlayWindow {
   ///
   /// `enableDrag` to enable/disable dragging the overlay over the screen and default is "false"
   ///
-  /// `positionGravity` the overlay postion after drag and default is [PositionGravity.none]
+  /// `positionGravity` the overlay postion after drag and default is [PositionGravity2.none]
   ///
   /// `startPosition` the overlay start position and default is null
   static Future<void> showOverlay({
-    int height = WindowSize.fullCover,
-    int width = WindowSize.matchParent,
-    OverlayAlignment alignment = OverlayAlignment.center,
-    NotificationVisibility visibility = NotificationVisibility.visibilitySecret,
-    OverlayFlag flag = OverlayFlag.defaultFlag,
+    int height = WindowSize2.fullCover,
+    int width = WindowSize2.matchParent,
+    OverlayAlignment2 alignment = OverlayAlignment2.center,
+    NotificationVisibility2 visibility = NotificationVisibility2.visibilitySecret,
+    OverlayFlag2 flag = OverlayFlag2.defaultFlag,
     String overlayTitle = "overlay activated",
     String? overlayContent,
     bool enableDrag = false,
-    PositionGravity positionGravity = PositionGravity.none,
-    OverlayPosition? startPosition,
+    PositionGravity2 positionGravity = PositionGravity2.none,
+    OverlayPosition2? startPosition,
   }) async {
     await _channel.invokeMethod(
       'showOverlay',
@@ -110,7 +110,7 @@ class FlutterOverlayWindow {
   }
 
   /// Update the overlay flag while the overlay in action
-  static Future<bool?> updateFlag(OverlayFlag flag) async {
+  static Future<bool?> updateFlag(OverlayFlag2 flag) async {
     final bool? _res = await _overlayChannel
         .invokeMethod<bool?>('updateFlag', {'flag': flag.name});
     return _res;
@@ -138,7 +138,7 @@ class FlutterOverlayWindow {
   /// `position` the new position of the overlay
   ///
   /// `return` true if the position updated successfully
-  static Future<bool?> moveOverlay(OverlayPosition position) async {
+  static Future<bool?> moveOverlay(OverlayPosition2 position) async {
     final bool? _res = await _channel.invokeMethod<bool?>(
       'moveOverlay',
       position.toMap(),
@@ -149,11 +149,11 @@ class FlutterOverlayWindow {
   /// Get the current overlay position
   ///
   /// `return` the current overlay position
-  static Future<OverlayPosition> getOverlayPosition() async {
+  static Future<OverlayPosition2> getOverlayPosition() async {
     final Map<Object?, Object?>? _res = await _channel.invokeMethod(
       'getOverlayPosition',
     );
-    return OverlayPosition.fromMap(_res);
+    return OverlayPosition2.fromMap(_res);
   }
 
   /// Check if the current overlay is active

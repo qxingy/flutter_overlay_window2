@@ -7,18 +7,18 @@ void main() {
 
   group('FlutterOverlayWindow', () {
     test('closeOverlay should close the overlay', () async {
-      await FlutterOverlayWindow.closeOverlay();
-      expect(await FlutterOverlayWindow.isActive(), isFalse);
+      await FlutterOverlayWindow2.closeOverlay();
+      expect(await FlutterOverlayWindow2.isActive(), isFalse);
     });
 
     if (defaultTargetPlatform == TargetPlatform.android) {
       test('isPermissionGranted should return a boolean', () async {
-        final result = await FlutterOverlayWindow.isPermissionGranted();
+        final result = await FlutterOverlayWindow2.isPermissionGranted();
         expect(result, isA<bool>());
       });
     }
     test('requestPermission should return a boolean', () async {
-      final result = await FlutterOverlayWindow.requestPermission();
+      final result = await FlutterOverlayWindow2.requestPermission();
       expect(result, isA<bool>());
     });
   });

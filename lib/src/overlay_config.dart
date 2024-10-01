@@ -1,5 +1,5 @@
 /// Placement of overlay within the screen.
-enum OverlayAlignment {
+enum OverlayAlignment2 {
   topLeft,
   topCenter,
   topRight,
@@ -12,7 +12,7 @@ enum OverlayAlignment {
 }
 
 /// Type of dragging behavior for the overlay.
-enum PositionGravity {
+enum PositionGravity2 {
   /// The `PositionGravity.none` will allow the overlay to postioned anywhere on the screen.
   none,
 
@@ -26,7 +26,7 @@ enum PositionGravity {
   auto,
 }
 
-enum OverlayFlag {
+enum OverlayFlag2 {
   /// Window flag: this window can never receive touch events.
   /// Usefull if you want to display click-through overlay
   @Deprecated('Use "clickThrough" instead.')
@@ -56,7 +56,7 @@ enum OverlayFlag {
 }
 
 /// The level of detail displayed in notifications on the lock screen.
-enum NotificationVisibility {
+enum NotificationVisibility2 {
   /// Show this notification in its entirety on all lockscreens.
   visibilityPublic,
 
@@ -67,8 +67,8 @@ enum NotificationVisibility {
   visibilityPrivate
 }
 
-class WindowSize {
-  WindowSize._();
+class WindowSize2 {
+  WindowSize2._();
 
   /// default size when the overlay match the parent size
   /// basically it will take the full screen width and height

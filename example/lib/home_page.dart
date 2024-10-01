@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             TextButton(
               onPressed: () async {
-                final status = await FlutterOverlayWindow.isPermissionGranted();
+                final status = await FlutterOverlayWindow2.isPermissionGranted();
                 log("Is Permission Granted: $status");
               },
               child: const Text("Check Permission"),
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
             TextButton(
               onPressed: () async {
                 final bool? res =
-                    await FlutterOverlayWindow.requestPermission();
+                    await FlutterOverlayWindow2.requestPermission();
                 log("status: $res");
               },
               child: const Text("Request Permission"),
@@ -64,17 +64,17 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 10.0),
             TextButton(
               onPressed: () async {
-                if (await FlutterOverlayWindow.isActive()) return;
-                await FlutterOverlayWindow.showOverlay(
+                if (await FlutterOverlayWindow2.isActive()) return;
+                await FlutterOverlayWindow2.showOverlay(
                   enableDrag: true,
                   overlayTitle: "X-SLAYER",
                   overlayContent: 'Overlay Enabled',
-                  flag: OverlayFlag.defaultFlag,
-                  visibility: NotificationVisibility.visibilityPublic,
-                  positionGravity: PositionGravity.auto,
+                  flag: OverlayFlag2.defaultFlag,
+                  visibility: NotificationVisibility2.visibilityPublic,
+                  positionGravity: PositionGravity2.auto,
                   height: (MediaQuery.of(context).size.height * 0.6).toInt(),
-                  width: WindowSize.matchParent,
-                  startPosition: const OverlayPosition(0, -259),
+                  width: WindowSize2.matchParent,
+                  startPosition: const OverlayPosition2(0, -259),
                 );
               },
               child: const Text("Show Overlay"),
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 10.0),
             TextButton(
               onPressed: () async {
-                final status = await FlutterOverlayWindow.isActive();
+                final status = await FlutterOverlayWindow2.isActive();
                 log("Is Active?: $status");
               },
               child: const Text("Is Active?"),
@@ -90,8 +90,8 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 10.0),
             TextButton(
               onPressed: () async {
-                await FlutterOverlayWindow.resizeOverlay(
-                  WindowSize.matchParent,
+                await FlutterOverlayWindow2.resizeOverlay(
+                  WindowSize2.matchParent,
                   (MediaQuery.of(context).size.height * 5).toInt(),
                   false,
                 );
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
             TextButton(
               onPressed: () {
                 log('Try to close');
-                FlutterOverlayWindow.closeOverlay()
+                FlutterOverlayWindow2.closeOverlay()
                     .then((value) => log('STOPPED: alue: $value'));
               },
               child: const Text("Close Overlay"),
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 20.0),
             TextButton(
               onPressed: () {
-                FlutterOverlayWindow.getOverlayPosition().then((value) {
+                FlutterOverlayWindow2.getOverlayPosition().then((value) {
                   log('Overlay Position: $value');
                   setState(() {
                     latestMessageFromOverlay = 'Overlay Position: $value';
@@ -131,8 +131,8 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 20.0),
             TextButton(
               onPressed: () {
-                FlutterOverlayWindow.moveOverlay(
-                  const OverlayPosition(0, 0),
+                FlutterOverlayWindow2.moveOverlay(
+                  const OverlayPosition2(0, 0),
                 );
               },
               child: const Text("Move overlay position to (0, 0)"),
